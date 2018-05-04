@@ -16,22 +16,53 @@ Document Management System
 ### App flow
 
 1. There are four main parts of the App.
-    a. Dashboard
+    * Dashboard
         * Upload New Documents
         * Apply Search and Filters
         * Change or Assign Category of a Document
         * Download, Delete Operation
-    b. Categories
+    * Categories
         * Create, Update, Delete Operation
-    c. Un-classified Documents
+    * Un-classified Documents
         * Assign category to a Document
         * Download, Delete Operations
-    d. Trash
+    * Trash
         * Restore
         * Download
         * Permanent Delete
+        * Apply Search and Filters
 
-2. Dashboard related Images
+2. Images
 
-![Dashboard](src/img/to/Dashboard_1.png?raw=true "Title")
+* Dashboard - All Uploaded Documents List Page.
+
+![Dashboard](https://github.com/aarti-gupta/Webapp_DMS/blob/master/src/img/Dashboard_1.png)
+
+* On clicking "New Document" button on Dashboard List page, you will redirect to this page. Here you can upload new Documents.
+
+![Upload Document](https://github.com/aarti-gupta/Webapp_DMS/blob/master/src/img/Upload-document_1(a).png)
+
+* On clicking "Edit" Icon on a document on Dashboard List Page, you will redirect to this page. Here you can change/assign category of a document.
+
+![Change Category](https://github.com/aarti-gupta/Webapp_DMS/blob/master/src/img/Change-category-to-existing-doc_1(b).png)
+
+* Categories List Page
+
+![Categories](https://github.com/aarti-gupta/Webapp_DMS/blob/master/src/img/Category_2.png)
+
+* On clicking "Add Category" button on Categories list Page, you will redirect her. Here you can crete a new category.
+
+![Add New Category](https://github.com/aarti-gupta/Webapp_DMS/blob/master/src/img/Add-new-category_2(a).png)
+
+* On clicking "Edit" Icon on a category on Categories List Pagee, you will redirect her. Here you can edit a new category.
+
+![Edit Category](https://github.com/aarti-gupta/Webapp_DMS/blob/master/src/img/Edit-category_2(b).png)
+
+* On clicking "Edit" Icon on a category on Unclassified List Pagee, you will redirect her. Here you can assign category to the documents which are not yet classified.
+
+![Assign Category](https://github.com/aarti-gupta/Webapp_DMS/blob/master/src/img/Assign-category-to-un-classified-doc.png)
+
+* ### Trash List Page You can perform Restore, Permanent Delete, Download actions here.
+
+![Trash](https://github.com/aarti-gupta/Webapp_DMS/blob/master/src/img/Trash.png)
 
