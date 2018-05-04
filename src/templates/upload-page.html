@@ -36,7 +36,8 @@
                                     <option value="" selected>Select Category</option>
                                     <option data-ng-repeat="cat in categories" value="{{ cat.id }}">{{ cat.name }}</option>
                                 </select>
-                                <small id="emailHelp" class="form-text text-muted">Please select the category is which you want to upload your file.</small>
+                                <small id="emailHelp" class="form-text text-muted">Please select the category in which you want to upload your file.
+                                    You can also do this later.</small>
                             </div>
                             <button name="fileSubmit" ngf-select="uploadFiles($files)"
                                     class="btn btn-outline-danger"

@@ -115,8 +115,6 @@ function UploadCtrl($scope, Upload, $http) {
                                 $scope.errorFiles.push(file);
                                 $scope.uploadingFiles.splice($scope.uploadingFiles.indexOf(file), 1);
                                 $scope.totalFilesAttached -= 1;
-                            } else {
-                               $scope.pushAlert('Oopsie! Some error has occurred.');
                             }
                             $scope.onAllRequestComplete();
                         }
@@ -130,9 +128,9 @@ function UploadCtrl($scope, Upload, $http) {
     $scope.saveCallback = function() {
 
         // Return if files are still uploading
-        if($scope.isProcessing){
+        if($scope.isFilesUploading){
             $scope.isFilesUploading = true;
-            $scope.infoMsg = 'File Uploading is in Progress.';
+            $scope.pushAlert('File Uploading is in Progress.');
             return;
         }
         //Return if no file selected to upload
@@ -164,6 +162,6 @@ function UploadCtrl($scope, Upload, $http) {
     };
 
     $scope.cancelCallback = function() {
-        $scope.uploadedFiles = [];
+        $scope.uploadingFiles = [];
     };
 }
