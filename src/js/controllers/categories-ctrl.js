@@ -14,6 +14,8 @@ function CategoryCtrl($scope, $state, $http) {
     $scope.sharedVar.showAddButton = true;
     $scope.sharedVar.hideFilters = true;
     $scope.sharedVar.hideSecondHeader = false;
+    $scope.isProcessing = true;
+    $scope.categories = [];
 
     getCategories();
 

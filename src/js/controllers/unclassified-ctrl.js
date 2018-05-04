@@ -12,6 +12,24 @@ function UnClassifiedCtrl($scope, $http) {
     $scope.sharedVar.pageTitle = 'UnClassified Documents';
     $scope.sharedVar.hideFilters = true;
     $scope.sharedVar.hideSecondHeader = true;
+    $scope.isProcessing = true;
+    $scope.allDocuments = [];
+    $scope.openPanelForm = false;
+
+    getCategories();
+
+    function getCategories(){
+        $scope.isProcessing = true;
+        $http.get('http://localhost:8000/categories/category/').then(
+            function(response){
+                $scope.categories = response.data;
+                $scope.isProcessing = false;
+            },
+            function(response){
+                $scope.isProcessing = false;
+            }
+        );
+    };
 
     getUnClassifiedDocuments();
 
@@ -38,4 +56,31 @@ function UnClassifiedCtrl($scope, $http) {
             }
         );
     };
+
+    $scope.updateDocument = function(doc){
+        $http.patch('http://localhost:8000/documents/document/:id'.replace(':id', doc.id), {category: doc.category}).then(
+            function(){
+                $scope.isProcessing = false;
+                $scope.allDocuments.splice($scope.index, 1);
+                $scope.index = null;
+                $scope.pushAlert('Category updated successfully.', 'success');
+                $scope.cancel();
+            },
+            function(){
+                $scope.pushAlert('Oopsie! Some error has occurred.', 'success');
+                $scope.isProcessing = false;
+            }
+        );
+    };
+
+    $scope.openPanel = function(index, doc){
+        $scope.selectedDoc = doc;
+        $scope.index = index;
+        $scope.openPanelForm = true;
+    };
+
+    $scope.cancel = function(){
+        $scope.selectedDoc = null;
+        $scope.openPanelForm = false;
+    }
 }

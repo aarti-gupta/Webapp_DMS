@@ -18,9 +18,26 @@ function DashboardCtrl($scope, $http, $state) {
     $scope.sharedVar.pageTitle = 'Dashboard';
     $scope.sharedVar.hideSecondHeader = false;
     $scope.sharedVar.hideFilters = false;
+    $scope.isProcessing = true;
+    $scope.allDocuments = [];
 
     $scope.sharedVar.addNew = function(){
         $state.go('upload');
+    };
+
+    getCategories();
+
+    function getCategories(){
+        $scope.isProcessing = true;
+        $http.get('http://localhost:8000/categories/category/').then(
+            function(response){
+                $scope.categories = response.data;
+                $scope.isProcessing = false;
+            },
+            function(response){
+                $scope.isProcessing = false;
+            }
+        );
     };
 
     getAllFiles();
@@ -30,10 +47,10 @@ function DashboardCtrl($scope, $http, $state) {
         $scope.isProcessing = true;
         var url = 'http://localhost:8000/documents/document/', queryParams = '';
         if ($scope.filters.searchText){
-            queryParams = queryParams + 'file_name=' + $scope.filters.searchText ;
+            queryParams = queryParams + 'file_name=' + $scope.filters.searchText + '&';
         }
         if ($scope.filters.category){
-            queryParams = queryParams + 'category=' + $scope.filters.category ;
+            queryParams = queryParams + 'category=' + $scope.filters.category + '&';
         }
         if ($scope.filters.file_type){
             queryParams = queryParams + 'file_type=' + $scope.filters.file_type ;

@@ -3,9 +3,9 @@
  */
 
 angular.module('RDash')
-    .controller('MasterCtrl', ['$scope', '$cookieStore', MasterCtrl]);
+    .controller('MasterCtrl', ['$scope', '$cookieStore', '$http', MasterCtrl]);
 
-function MasterCtrl($scope, $cookieStore) {
+function MasterCtrl($scope, $cookieStore, $http) {
     /**
      * Sidebar Toggle & Cookie Control
      */
@@ -53,7 +53,21 @@ function MasterCtrl($scope, $cookieStore) {
             msg: msg,
             type: type
         });
-    }
+    };
 
+    getCategories();
+
+    function getCategories(){
+        $scope.isProcessing = true;
+        $http.get('http://localhost:8000/categories/category/').then(
+            function(response){
+                $scope.categories = response.data;
+                $scope.isProcessing = false;
+            },
+            function(response){
+                $scope.isProcessing = false;
+            }
+        );
+    };
 
 }

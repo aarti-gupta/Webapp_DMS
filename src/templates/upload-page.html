@@ -24,14 +24,29 @@
     <form novalidate  class="col-xs-12" name="attachmentUpload">
         <div class="attachment-wrap">
 
-            <button name="fileSubmit" ngf-select="uploadFiles($files)"
-                    class="btn btn-outline-danger"
-                    ngf-multiple="true">
-                Select Files to Upload
-            </button>
-
-            <div data-ng-if="uploadingFiles.length === 0" style="text-align: center; margin-top: 80px;">
-                No file is selected to upload.
+            <div>
+                <div class="panel panel-info">
+                    <div class="panel-heading">Upload Documents</div>
+                    <div class="panel-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">File Category</label>
+                                <select class="form-control form-control-lg"  data-ng-required="true"
+                                        data-ng-model="selectedCategoryId">
+                                    <option value="" selected>Select Category</option>
+                                    <option data-ng-repeat="cat in categories" value="{{ cat.id }}">{{ cat.name }}</option>
+                                </select>
+                                <small id="emailHelp" class="form-text text-muted">Please select the category is which you want to upload your file.</small>
+                            </div>
+                            <button name="fileSubmit" ngf-select="uploadFiles($files)"
+                                    class="btn btn-outline-danger"
+                                    ngf-multiple="true"
+                                    >
+                                Select Files to Upload
+                            </button>
+                        </form>
+                    </div>
+                </div>
             </div>
 
             <div class="col-xs-12">
@@ -94,7 +109,7 @@
         </div>
 
 
-        <div class="col-xs-12 no-padding" data-ng-if="uploadingFiles.length > 0 && !fileSaved">
+        <div class="col-xs-12" data-ng-if="uploadingFiles.length > 0 && !fileSaved">
             <button class="btn btn-outline-primary" style="float:left; background: #C62828;color: white" data-ng-click="cancelCallback()">
                 CANCEL
             </button>

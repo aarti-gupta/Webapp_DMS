@@ -8,11 +8,10 @@ angular
 
 function UploadCtrl($scope, Upload, $http) {
     $scope.pageTitle = 'Upload New File';
-    $scope.MAX_ATTACHMENTS = 2;
-    $scope.totalFilesAttached = 0;
     $scope.uploadingFiles = [];
     $scope.sharedVar.pageTitle = 'Upload';
     $scope.sharedVar.showAddButton = false;
+    $scope.selectedCategoryId = '';
 
     var CX_CONSTANTS = {
         QUEUED: 'queued',
@@ -22,6 +21,21 @@ function UploadCtrl($scope, Upload, $http) {
         INVALID: 'invalid'
     };
     var processedFilesCount = 0, totalValidUploadingFilesCount = 0;
+
+    getCategories();
+
+    function getCategories(){
+        $scope.isProcessing = true;
+        $http.get('http://localhost:8000/categories/category/').then(
+            function(response){
+                $scope.categories = response.data;
+                $scope.isProcessing = false;
+            },
+            function(response){
+                $scope.isProcessing = false;
+            }
+        );
+    };
 
     $scope.onAllRequestComplete = function() {
 
@@ -36,7 +50,6 @@ function UploadCtrl($scope, Upload, $http) {
     $scope.removeFileFromQueue = function(file) {
         $scope.validationError = false;
         processedFilesCount += 1;
-        $scope.totalFilesAttached -= 1;
         file.status = CX_CONSTANTS.CANCELED;
         $scope.uploadingFiles.splice($scope.uploadingFiles.indexOf(file), 1);
         if(!$scope.uploadingFiles.length){
@@ -56,66 +69,61 @@ function UploadCtrl($scope, Upload, $http) {
             $scope.noFileSelected = false;
             $scope.validationError = false;
             totalValidUploadingFilesCount = totalValidUploadingFilesCount + files.length;
-            var canUploadMore = files.length <= $scope.MAX_ATTACHMENTS - $scope.totalFilesAttached;
-            $scope.maxNumberOfAttachmentsError = {};
             var url = 'http://localhost:8000/documents/document/';
 
-            if (canUploadMore) {
-                files.forEach(function(file) {
-                    $scope.isProcessing = true;
-                    file.status = CX_CONSTANTS.QUEUED;
-                    file.progress = 0;
-                    $scope.uploadingFiles.push(file);
-                    $scope.totalFilesAttached += 1;
+            files.forEach(function(file) {
+                $scope.isProcessing = true;
+                file.status = CX_CONSTANTS.QUEUED;
+                file.progress = 0;
+                $scope.uploadingFiles.push(file);
 
-                    file.upload = Upload.upload({
-                        method: 'POST',
-                        url: url,
-                        data: {uploaded_file: file}
-                    });
+                var payLoad = {};
+                payLoad['uploaded_file'] = file;
 
-                    file.upload.then(
-                        function (response) {
-                            // On Success
-                            if (file.status !== CX_CONSTANTS.CANCELED) {
-                                processedFilesCount += 1;
-                                file.status = CX_CONSTANTS.DONE;
-                                file.url = response.data.uploaded_file;
-                                file.temp_storage_id = response.data.id;
-                                $scope.onAllRequestComplete();
-                            }
+                if ($scope.selectedCategoryId != ''){
+                    payLoad['category'] = $scope.selectedCategoryId;
+                }
 
-                        }, function (response) {
-                            // On Failure
-                            if (file.status !== CX_CONSTANTS.CANCELED) {
-                                processedFilesCount += 1;
-                                if (response.status === 400) {
-                                    if (response.data.non_field_errors) {
-                                        file.status = CX_CONSTANTS.FAILED;
-                                    } else {
-                                        file.status = CX_CONSTANTS.INVALID;
-                                        file.errorText = response.data.uploaded_file[0];
-                                    }
-                                    $scope.errorFiles.push(file);
-                                    $scope.uploadingFiles.splice($scope.uploadingFiles.indexOf(file), 1);
-                                    $scope.totalFilesAttached -= 1;
-                                } else {
-                                   $scope.pushAlert('Oopsie! Some error has occurred.');
-                                }
-                                $scope.onAllRequestComplete();
-                            }
-                        }, function (evt) {
-                            file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
-                        });
+                file.upload = Upload.upload({
+                    method: 'POST',
+                    url: url,
+                    data: payLoad
                 });
-            } else {
-                totalValidUploadingFilesCount = totalValidUploadingFilesCount - files.length;
-                $scope.uploadingFiles = $scope.uploadingFiles ? $scope.uploadingFiles : [];
-                $scope.maxNumberOfAttachmentsError.status = true;
-                $scope.maxNumberOfAttachmentsError.remaining = $scope.MAX_ATTACHMENTS - $scope.totalFilesAttached;
-                $scope.validationError = true;
-                $scope.pushAlert('You can only upload 10 files at once.', 'danger');
-            }
+
+                file.upload.then(
+                    function (response) {
+                        // On Success
+                        if (file.status !== CX_CONSTANTS.CANCELED) {
+                            processedFilesCount += 1;
+                            file.status = CX_CONSTANTS.DONE;
+                            file.url = response.data.uploaded_file;
+                            file.temp_storage_id = response.data.id;
+                            $scope.onAllRequestComplete();
+                        }
+
+                    }, function (response) {
+                        // On Failure
+                        if (file.status !== CX_CONSTANTS.CANCELED) {
+                            processedFilesCount += 1;
+                            if (response.status === 400) {
+                                if (response.data.non_field_errors) {
+                                    file.status = CX_CONSTANTS.FAILED;
+                                } else {
+                                    file.status = CX_CONSTANTS.INVALID;
+                                    file.errorText = response.data.uploaded_file[0];
+                                }
+                                $scope.errorFiles.push(file);
+                                $scope.uploadingFiles.splice($scope.uploadingFiles.indexOf(file), 1);
+                                $scope.totalFilesAttached -= 1;
+                            } else {
+                               $scope.pushAlert('Oopsie! Some error has occurred.');
+                            }
+                            $scope.onAllRequestComplete();
+                        }
+                    }, function (evt) {
+                        file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+                    });
+            });
         }
     };
 

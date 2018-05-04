@@ -14,6 +14,23 @@ function TrashCtrl($scope, $http) {
     $scope.sharedVar.hideSecondHeader = false;
     $scope.sharedVar.hideFilters = false;
     $scope.sharedVar.showAddButton = false;
+    $scope.isProcessing = true;
+    $scope.allDocuments = [];
+
+    getCategories();
+
+    function getCategories(){
+        $scope.isProcessing = true;
+        $http.get('http://localhost:8000/categories/category/').then(
+            function(response){
+                $scope.categories = response.data;
+                $scope.isProcessing = false;
+            },
+            function(response){
+                $scope.isProcessing = false;
+            }
+        );
+    };
 
     getTrash();
 

@@ -125,9 +125,7 @@
           </div>
           <select data-ng-hide="sharedVar.hideFilters" class="filter filter-1" ng-model="filters.category" data-ng-change="sharedVar.applySearch()">
             <option value="" selected>Select Category</option>
-            <option value="3">Technical</option>
-            <option value="1">Marketing</option>
-            <option value="2">Financial</option>
+            <option data-ng-repeat="cat in categories" value="{{ cat.id }}">{{ cat.name }}</option>
           </select>
           <select data-ng-hide="sharedVar.hideFilters" class="filter filter-2" ng-model="filters.file_type" data-ng-change="sharedVar.applySearch()">
             <option value="" selected>Select File Type</option>

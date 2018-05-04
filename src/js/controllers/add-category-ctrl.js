@@ -37,7 +37,7 @@ function AddCategoryCtrl($scope, $http, $stateParams, $state) {
             },
             function(response){
                 $scope.isProcessing = false;
-                if(response.data.name){
+                if(response.data && response.data.name){
                     $scope.pushAlert(response.data.name[0]);
                 }
             }
