@@ -13,3 +13,25 @@ Document Management System
 4. Run the gulp build task: `gulp build`.
 5. Run the gulp default task: `gulp`. This will build any changes made automatically, and also run a live reload server on [http://localhost:8888](http://localhost:8888).
 
+### App flow
+
+1. There are four main parts of the App.
+    a. Dashboard
+        * Upload New Documents
+        * Apply Search and Filters
+        * Change or Assign Category of a Document
+        * Download, Delete Operation
+    b. Categories
+        * Create, Update, Delete Operation
+    c. Un-classified Documents
+        * Assign category to a Document
+        * Download, Delete Operations
+    d. Trash
+        * Restore
+        * Download
+        * Permanent Delete
+
+2. Dashboard related Images
+
+![Dashboard](src/img/to/Dashboard_1.png?raw=true "Title")
+
