@@ -87,6 +87,43 @@ function DashboardCtrl($scope, $http, $state) {
             }
         );
     };
+    function getCategoryId(name){
+        var categoryId = '';
+        angular.forEach($scope.categories, function(cat){
+            if (cat.name === name){
+                categoryId =  cat.id;
+            }
+        });
+        return categoryId;
+    }
+
+    $scope.updateDocument = function(doc){
+        $http.patch('http://localhost:8000/documents/document/:id'.replace(':id', doc.id), {category: getCategoryId($scope.selectedDoc.category)}).then(
+            function(){
+                $scope.isProcessing = false;
+                doc.category = $scope.selectedDoc.category;
+                $scope.pushAlert('Category updated successfully.', 'success');
+                $scope.cancel();
+            },
+            function(){
+                $scope.pushAlert('Oopsie! Some error has occurred.', 'success');
+                $scope.isProcessing = false;
+            }
+        );
+    };
+
+    $scope.openPanel = function(index, doc){
+        $scope.selectedDoc = {
+            category: doc.category ? doc.category : ''
+        };
+        $scope.originalDoc = doc;
+        $scope.openPanelForm = true;
+    };
+
+    $scope.cancel = function(){
+        $scope.selectedDoc = null;
+        $scope.openPanelForm = false;
+    }
 
 
 }

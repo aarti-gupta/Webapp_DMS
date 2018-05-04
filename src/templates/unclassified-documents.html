@@ -6,7 +6,8 @@
     <div class="col-xs-12">
         <div data-ng-if="isProcessing" style="text-align: center; margin-top: 80px;"> Loading ...</div>
         <div data-ng-if="!isProcessing && allDocuments.length == 0" style="text-align: center; margin-top: 80px;"> Sorry! Currently No Document is available.</div>
-        <div class="panel panel-default" data-ng-if="openPanelForm">
+        <div class="panel panel-info" data-ng-if="openPanelForm">
+            <div class="panel-heading">Assign Category</div>
             <div class="panel-body">
                 <form>
                     <div class="form-group">
