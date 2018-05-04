@@ -30,11 +30,7 @@ function TrashCtrl($scope, $http) {
         }
 
         if (queryParams !== ''){
-            $scope.listText = 'Filter Result';
-            $scope.isFilterApplied = true;
             url = url + '?' + queryParams;
-        } else {
-            $scope.listText = 'All Documents';
         }
 
         $http.get(url).then(

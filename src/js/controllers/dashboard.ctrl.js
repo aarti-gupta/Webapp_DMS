@@ -38,11 +38,8 @@ function DashboardCtrl($scope, $http, $state) {
         }
 
         if (queryParams !== ''){
-            $scope.listText = 'Filter Result';
             $scope.isFilterApplied = true;
             url = url + '?' + queryParams;
-        } else {
-            $scope.listText = 'All Documents';
         }
 
         $http.get(url).then(
@@ -62,15 +59,11 @@ function DashboardCtrl($scope, $http, $state) {
     };
 
     $scope.deleteDocument = function(id){
-        console.log(id);
         $http.delete('http://localhost:8000/documents/document/:id'.replace(':id', id)).then(
             function(response){
-                console.log(response.data);
                 $scope.allDocuments = response.data;
-                console.log('11111111111');
             },
             function(response){
-                console.log('2222222222', response);
             }
         );
     };

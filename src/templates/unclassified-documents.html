@@ -4,8 +4,8 @@
     </div>
 
     <div class="col-xs-12">
-        <div data-ng-if="isProcessing" > Loading ...</div>
-        <div data-ng-if="!allDocuments.length" style="text-align: center; margin-top: 80px;"> Sorry! Currently No Document is available.</div>
+        <div data-ng-if="isProcessing" style="text-align: center; margin-top: 80px;"> Loading ...</div>
+        <div data-ng-if="!isProcessing && allDocuments.length == 0" style="text-align: center; margin-top: 80px;"> Sorry! Currently No Document is available.</div>
         <table class="table" data-ng-if="!isProcessing && allDocuments.length > 0">
             <thead>
             <tr>
@@ -14,8 +14,7 @@
                 <th>File Type</th>
                 <th>Size</th>
                 <th>Uploaded At</th>
-                <th>Download</th>
-                <th>Delete</th>
+                <th>Actions</th>
             </tr>
             </thead>
             <tbody >
@@ -25,8 +24,10 @@
                 <td>{{ doc.file_type }}</td>
                 <td>{{ doc.size }}</td>
                 <td>{{ doc.uploaded_at | formattedDateTime}}</td>
-                <td><a href="{{ doc.url }}"><i class="fa fa-download" aria-hidden="true"></i></a></td>
-                <td ng-click="deleteDocument(doc.id)"><i class="fa fa-trash-o" aria-hidden="true"></i></td>
+                <td>
+                    <a href="{{ doc.url }}" data-toggle="tooltip" title="Download"><i class="fa fa-download" aria-hidden="true"></i></a>
+                    <span data-toggle="tooltip" title="Delete" ng-click="deleteDocument(doc.id)" style="margin-left: 15px; cursor: hand"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
+                </td>
             </tr>
             </tbody>
         </table>
