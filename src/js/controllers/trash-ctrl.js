@@ -22,10 +22,12 @@ function TrashCtrl($scope, $http) {
         $scope.isProcessing = true;
         var url = 'http://localhost:8000/documents/trash', queryParams = '';
         if ($scope.filters.searchText){
-            queryParams = queryParams + 'file_name=' + $scope.filters.searchText ;
-        } else if ($scope.filters.category){
-            queryParams = queryParams + 'category=' + $scope.filters.category ;
-        } else if ($scope.filters.file_type){
+            queryParams = queryParams + 'file_name=' + $scope.filters.searchText + '&' ;
+        }
+        if ($scope.filters.category){
+            queryParams = queryParams + 'category=' + $scope.filters.category + '&' ;
+        }
+        if ($scope.filters.file_type){
             queryParams = queryParams + 'file_type=' + $scope.filters.file_type ;
         }
 
@@ -44,7 +46,7 @@ function TrashCtrl($scope, $http) {
         );
     }
 
-    $scope.applySearch = function(){
+    $scope.sharedVar.applySearch = function(){
         getTrash();
     };
 

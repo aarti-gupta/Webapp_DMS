@@ -3,9 +3,9 @@
  */
 
 angular.module('RDash')
-    .controller('AddCategoryCtrl', ['$scope', '$http', '$stateParams', AddCategoryCtrl]);
+    .controller('AddCategoryCtrl', ['$scope', '$http', '$stateParams', '$state', AddCategoryCtrl]);
 
-function AddCategoryCtrl($scope, $http, $stateParams) {
+function AddCategoryCtrl($scope, $http, $stateParams, $state) {
     /**
      * Sidebar Toggle & Cookie Control
      */
@@ -30,9 +30,10 @@ function AddCategoryCtrl($scope, $http, $stateParams) {
 
     $scope.save = function(){
         $http.post('http://localhost:8000/categories/category/', $scope.category).then(
-            function(){
+            function(response){
                 $scope.isProcessing = false;
                 $scope.pushAlert('Category created successfully.', 'success');
+                $state.go('edit-category', {id: response.data.id, category: response.data})
             },
             function(response){
                 $scope.isProcessing = false;

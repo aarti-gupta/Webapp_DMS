@@ -20,7 +20,10 @@
                                   placeholder="Description"></textarea>
                     </div>
                     <button type="reset" class="btn btn-warn">Reset</button>
-                    <button type="submit" class="btn btn-primary" data-ng-click="save()">Submit</button>
+                    <button type="submit" class="btn btn-primary"
+                            data-ng-click="sharedVar.pageTitle == 'Add New Category' ? save(): update(category)">
+                        Submit
+                    </button>
                 </form>
             </div>
         </div>

@@ -26,7 +26,8 @@
                 <td>{{ doc.uploaded_at | formattedDateTime}}</td>
                 <td>
                     <a href="{{ doc.url }}" data-toggle="tooltip" title="Download"><i class="fa fa-download" aria-hidden="true"></i></a>
-                    <span data-toggle="tooltip" title="Delete" ng-click="deleteDocument(doc.id)" style="margin-left: 15px; cursor: hand"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
+                    <span data-toggle="tooltip" title="Delete" ng-click="deleteDocument($index, doc.id)" style="margin-left: 15px; cursor: hand"><i class="fa
+                    fa-trash-o" aria-hidden="true"></i></span>
                 </td>
             </tr>
             </tbody>

@@ -9,8 +9,7 @@ function UnClassifiedCtrl($scope, $http) {
     /**
      * Sidebar Toggle & Cookie Control
      */
-    $scope.pageTitle = 'Un-Classified Documents';
-    $scope.sharedVar.pageTitle = 'UnClassified';
+    $scope.sharedVar.pageTitle = 'UnClassified Documents';
     $scope.sharedVar.hideFilters = true;
     $scope.sharedVar.hideSecondHeader = true;
 
@@ -25,6 +24,17 @@ function UnClassifiedCtrl($scope, $http) {
             },
             function(response){
                 $scope.isProcessing = false;
+            }
+        );
+    };
+
+    $scope.deleteDocument = function(index, id){
+        $http.delete('http://localhost:8000/documents/document/:id'.replace(':id', id)).then(
+            function(response){
+                $scope.allDocuments.splice(index, 1);
+                $scope.pushAlert('Document moved to trash.');
+            },
+            function(response){
             }
         );
     };

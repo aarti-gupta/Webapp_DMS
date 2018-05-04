@@ -31,9 +31,11 @@ function DashboardCtrl($scope, $http, $state) {
         var url = 'http://localhost:8000/documents/document/', queryParams = '';
         if ($scope.filters.searchText){
             queryParams = queryParams + 'file_name=' + $scope.filters.searchText ;
-        } else if ($scope.filters.category){
+        }
+        if ($scope.filters.category){
             queryParams = queryParams + 'category=' + $scope.filters.category ;
-        } else if ($scope.filters.file_type){
+        }
+        if ($scope.filters.file_type){
             queryParams = queryParams + 'file_type=' + $scope.filters.file_type ;
         }
 
@@ -58,10 +60,11 @@ function DashboardCtrl($scope, $http, $state) {
         getAllFiles();
     };
 
-    $scope.deleteDocument = function(id){
+    $scope.deleteDocument = function(index, id){
         $http.delete('http://localhost:8000/documents/document/:id'.replace(':id', id)).then(
             function(response){
-                $scope.allDocuments = response.data;
+                $scope.allDocuments.splice(index, 1);
+                $scope.pushAlert('Document moved to trash.');
             },
             function(response){
             }
