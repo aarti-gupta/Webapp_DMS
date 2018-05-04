@@ -1,0 +1,37 @@
+<div class="row" data-ng-controller="TrashCtrl">
+    <div class="col-xs-12">
+        <uib-alert data-ng-repeat="alert in sharedVar.alerts" type="info" close="closeAlert($index)">{{alert.msg}}</uib-alert>
+    </div>
+
+    <div class="col-xs-12">
+        <div data-ng-if="isProcessing" > Loading ...</div>
+        <div data-ng-if="!allDocuments.length" style="text-align: center; margin-top: 80px;"> Sorry! Currently No Document is available.</div>
+        <table class="table" data-ng-if="!isProcessing && allDocuments.length > 0">
+            <thead>
+            <tr>
+                <th>File Name</th>
+                <th>Category</th>
+                <th>File Type</th>
+                <th>Size</th>
+                <th>Uploaded At</th>
+                <th>Download</th>
+                <th>Restore</th>
+                <th>Permanent Delete</th>
+            </tr>
+            </thead>
+            <tbody >
+            <tr ng-repeat="doc in allDocuments">
+                <td style="width:30%">{{ doc.name }}</td>
+                <td>{{ doc.category }}</td>
+                <td>{{ doc.file_type }}</td>
+                <td>{{ doc.size }}</td>
+                <td>{{ doc.uploaded_at | formattedDateTime}}</td>
+                <td><a href="{{ doc.url }}"><i class="fa fa-download" aria-hidden="true"></i></a></td>
+                <td ng-click="restoreDocument($index, doc.id)"><i class="fa fa-repeat" aria-hidden="true"></i></td>
+                <td ng-click="deleteDocument($index, doc.id)"><i class="fa fa-trash-o" aria-hidden="true"></i></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
